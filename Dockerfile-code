@@ -1,0 +1,9 @@
+FROM cogniteev/echo
+
+# Prepare project
+#
+COPY src /code/src
+COPY test /code/test
+
+VOLUME ["/code/src"]
+VOLUME ["/code/test"]

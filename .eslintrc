@@ -1,0 +1,15 @@
+{
+  "extends": ["airbnb"],
+  "rules": {
+    // what of it? PEP-008 or not? :)
+    "space-infix-ops": 0,
+    // for pycharm compatibility
+    "no-case-declarations": 0
+  },
+  "parser": "babel-eslint",
+  "env": {
+    "browser": true,
+    "node": true,
+    "mocha": true
+  }
+}

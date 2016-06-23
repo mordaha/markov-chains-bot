@@ -1,0 +1,9 @@
+node_modules/
+id_rsa.pub
+token.js
+npm-debug.log
+data
+tmp
+production.env
+dist/
+coverage

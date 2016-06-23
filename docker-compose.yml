@@ -1,0 +1,21 @@
+version: "2"
+services:
+  code:
+    build:
+      context: .
+      dockerfile: "Dockerfile-code"
+  redis:
+    image: redis
+    command: redis-server --appendonly yes
+    volumes:
+      - ./data/redis:/data
+  bot:
+    container_name: markov-bot
+    build:
+      context: .
+      dockerfile: "Dockerfile"
+    volumes_from:
+      - code
+    links:
+      - redis
+      - code

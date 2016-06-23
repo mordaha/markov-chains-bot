@@ -1,0 +1,31 @@
+FROM node:6.2.0
+
+# Prepare os libs
+RUN apt-get update -y && apt-get upgrade -y && apt-get install -y \
+	git-core openssh-server
+
+# Prepare project
+#
+RUN mkdir /code
+WORKDIR /code
+COPY package.json /code
+COPY webpack.config.js /code
+COPY deploy/production.env /code
+COPY deploy/start.sh /code
+
+RUN npm install
+RUN npm install -g babel-cli
+
+# Prepare dir for sshd
+RUN mkdir -p /var/run/sshd
+
+# Prepare key-based login to ssd by copying local ~/.ssh/id_rsa.pub
+RUN mkdir -p /root/.ssh
+RUN chmod 700 /root/.ssh
+COPY ./deploy/id_rsa.pub /root/.ssh/authorized_keys
+RUN echo "PermitRootLogin yes" >> /etc/ssh/sshd_config
+
+# Prepare ports
+EXPOSE 22
+
+ENTRYPOINT ["/usr/sbin/sshd", "-d"]

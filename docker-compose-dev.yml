@@ -1,0 +1,30 @@
+version: "2"
+services:
+  code:
+    build:
+      context: .
+      dockerfile: "Dockerfile-code"
+    volumes:
+      - ./src:/code/src
+      - ./test:/code/test
+      - ./webpack.config.js:/code/webpack.config.js:ro
+  redis:
+    image: redis
+    command: redis-server --appendonly yes
+    volumes:
+      - ./data/redis:/data
+  bot:
+    container_name: bot
+    build:
+      context: .
+      dockerfile: "Dockerfile-dev"
+    ports:
+      - "8122:22"
+    environment:
+      - DEV=1
+      - DEBUG=1
+    volumes_from:
+      - code
+    links:
+      - redis
+      - code
