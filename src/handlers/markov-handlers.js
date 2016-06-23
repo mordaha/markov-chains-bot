@@ -1,6 +1,5 @@
 import { AbstractHandler } from './abstract-handler';
 
-
 export class MarkovHandlersRepository {
   constructor(kv) {
     this.kv = kv;
@@ -19,7 +18,6 @@ export class MarkovHandlersRepository {
     this.kv.set('chat_ids', chatIds.filter(ci => ci !== chatId));
   }
 }
-
 
 export class MarkovAddHandler extends AbstractHandler {
   // @constructor :: MarkovHandlersRepository -> MarkovChainService -> MarkovTextParser

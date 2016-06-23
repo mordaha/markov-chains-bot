@@ -26,17 +26,15 @@ export class AbstractBot {
   run() {
     this.botApi.on('message', this.onMessage.bind(this));
   }
-  // setHandler :: [String] -> CommandHandlerInterface -> Int
+  // setHandler :: [String] -> CommandHandlerInterface -> undefined
   setHandler(patterns, commandHandler) {
     patterns.forEach((p) => {
       this.handlers[p] = commandHandler;
     });
-    return this.handlers.length;
   }
-  // addDefaultHandler :: CommandHandlerInterface -> Int
+  // addDefaultHandler :: CommandHandlerInterface -> undefined
   addDefaultHandler(commandHandler) {
     this.defaultHandlers = this.defaultHandlers.concat(commandHandler);
-    return this.defaultHandlers.length;
   }
   // onMessage :: Message -> undefined
   onMessage(message) {
