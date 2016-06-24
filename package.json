@@ -32,7 +32,8 @@
   },
   "scripts": {
     "lint": "eslint src/ test/ || true",
-    "tdd": "mocha --compilers js:babel-core/register --recursive --watch",
+    "tdd": "mocha --compilers js:babel-core/register --recursive --watch test/unit",
+    "unittest": "mocha --compilers js:babel-core/register --recursive test/unit",
     "test": "mocha --compilers js:babel-core/register  --recursive",
     "bot": "node dist/index.js",
     "build": "NODE_ENV=production webpack --progress",

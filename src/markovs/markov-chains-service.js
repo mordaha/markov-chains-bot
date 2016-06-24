@@ -44,8 +44,8 @@ export class MarkovChainsService extends AbstractMarkovChainsService {
         }
         usedKeys = usedKeys.concat(key);
         const words = await this.mr.getWords(key);
-        for (let j=0; j < words.length; j++) {
-          nextWords = nextWords.concat(words[j]);
+        if (words !== null && words.length) {
+          nextWords = nextWords.concat(words);
         }
       }
       if (nextWords.length === 0) {
@@ -62,8 +62,10 @@ export class MarkovChainsService extends AbstractMarkovChainsService {
   }
 
   // getRandomValueFromArray :: [T] -> T -> T
-  getRandomValueFromArray(arr, defaultValue = '') {
-    return arr[Math.floor(this.randomFn() * arr.length)] || defaultValue;
+  getRandomValueFromArray(arr) {
+    const rnd = this.randomFn();
+    const out = arr[Math.floor(rnd * arr.length)];
+    return out;
   }
 
   // getFirstWord :: String

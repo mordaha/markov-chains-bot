@@ -4,14 +4,14 @@ export class MarkovHandlersRepository {
   constructor(kv) {
     this.kv = kv;
   }
-
   async getChatIds() {
     return await this.kv.get('chat_ids') || [];
   }
   async addChatId(chatId) {
     const chatIds = await this.getChatIds();
-    // TODO - make set of chatIds
-    this.kv.set('chat_ids', chatIds.concat(chatId));
+    if (chatIds.indexOf(chatId) === -1) {
+      this.kv.set('chat_ids', chatIds.concat(chatId));
+    }
   }
   async removeChatId(chatId) {
     const chatIds = await this.getChatIds();

@@ -8,6 +8,7 @@ services:
       - ./src:/code/src
       - ./test:/code/test
       - ./webpack.config.js:/code/webpack.config.js:ro
+      - ./package.json:/code/package.json:ro
   redis:
     image: redis
     command: redis-server --appendonly yes
