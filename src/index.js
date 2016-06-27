@@ -80,7 +80,7 @@ if (APP_MODE === 'telegram') {
     );
 
   telegramBot.setHandler(
-      ['/tw', '[x]', 'хяъ', '[х]'],
+      ['/tw', '[x]', 'хчъ', '[х]'],
       new TwittorHandler(twitter, ADMIN_IDS)
   );
 
