@@ -6,12 +6,17 @@ bluebird.promisifyAll(redis.RedisClient.prototype);
 bluebird.promisifyAll(redis.Multi.prototype);
 
 import TelegramBotApi from 'node-telegram-bot-api';
+import Twitter from 'twitter';
 import readline from 'readline';
 
 import {
   APP_MODE,
   TELEGRAM_TOKEN,
   ADMIN_IDS,
+  TWITTER_CONSUMER_KEY,
+  TWITTER_CONSUMER_SECRET,
+  TWITTER_ACCESS_TOKEN_KEY,
+  TWITTER_ACCESS_TOKEN_SECRET,
 } from './settings';
 
 import { MarkovChainsService } from './markovs/markov-chains-service';
@@ -30,6 +35,7 @@ import {
   MarkovEnableHandler,
   MarkovDisableHandler,
 } from './handlers/markov-handlers';
+import { TwittorHandler } from './handlers/twittor-handler';
 
 if (APP_MODE === 'telegram') {
   const r = redis.createClient({ host: 'redis' });
@@ -40,6 +46,13 @@ if (APP_MODE === 'telegram') {
   const telegramBotApi = new TelegramBotApi(TELEGRAM_TOKEN, { polling: true });
   const telegramBot = new TelegramBot(telegramBotApi);
   const mhr = new MarkovHandlersRepository(kv);
+
+  const twitter = new Twitter({
+    consumer_key: TWITTER_CONSUMER_KEY,
+    consumer_secret: TWITTER_CONSUMER_SECRET,
+    access_token_key: TWITTER_ACCESS_TOKEN_KEY,
+    access_token_secret: TWITTER_ACCESS_TOKEN_SECRET,
+  });
 
   telegramBot.setHandler(
       ['/myid', 'myid', 'кто я'],
@@ -65,6 +78,11 @@ if (APP_MODE === 'telegram') {
       ['/disable', 'сова спи'],
       new MarkovDisableHandler(mhr, ADMIN_IDS)
     );
+
+  telegramBot.setHandler(
+      ['/tw', '[x]', 'хяъ', '[х]'],
+      new TwittorHandler(twitter, ADMIN_IDS)
+  );
 
   telegramBot.addDefaultHandler(new MarkovAddHandler(mhr, markovs, parser));
   telegramBot.run();
