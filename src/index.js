@@ -39,7 +39,7 @@ import { TwittorHandler } from './handlers/twittor-handler';
 
 if (APP_MODE === 'telegram') {
   const r = redis.createClient({ host: 'redis' });
-  const kv = new RedisKVStorage(r, 'test01');
+  const kv = new RedisKVStorage(r, 'test02');
   const markovRepository = new MarkovRepository(kv);
   const parser = new MarkovTextParser();
   const markovs = new MarkovChainsService(markovRepository);
